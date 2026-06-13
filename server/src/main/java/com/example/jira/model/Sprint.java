@@ -18,6 +18,8 @@ public class Sprint {
     private Instant endDate;
     private String status; 
     private String goal;
+    private Instant createdAt = Instant.now();
+    private Instant updatedAt = Instant.now();
 
     public String getId() {
         return id != null ? id.toHexString() : null;
@@ -48,4 +50,10 @@ public class Sprint {
 
     public String getGoal() { return goal; }
     public void setGoal(String goal) { this.goal = goal; }
+
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+
+    public Instant getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
 }

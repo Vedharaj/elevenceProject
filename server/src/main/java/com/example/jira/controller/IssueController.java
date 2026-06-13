@@ -1,10 +1,9 @@
 package com.example.jira.controller;
 import com.example.jira.model.Issue;
-import com.example.jira.repository.IssueRepository;
-import org.bson.types.ObjectId;
+import com.example.jira.dto.CommentRequest;
+import com.example.jira.service.IssueService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -12,54 +11,67 @@ import java.util.List;
 @RequestMapping("/api/issues")
 public class IssueController {
 
-    private final IssueRepository issueRepository;
+    private final IssueService issueService;
 
-    public IssueController(IssueRepository issueRepository) {
-        this.issueRepository = issueRepository;
+    public IssueController(IssueService issueService) {
+        this.issueService = issueService;
     }
 
-    // CREATE
+    // CREATE - for parent tasks
     @PostMapping
     public Issue createIssue(@RequestBody Issue issue) {
-        return issueRepository.save(issue);
+        return issueService.createIssue(issue);
     }
 
     // GET BY PROJECT
     @GetMapping("/project/{projectId}")
     public List<Issue> getIssuesByProject(@PathVariable String projectId) {
-        return issueRepository.findByProjectId(projectId);
+        return issueService.getIssuesByProject(projectId);
+    }
+
+    // GET BY SPRINT
+    @GetMapping("/sprint/{sprintId}")
+    public List<Issue> getIssuesBySprint(@PathVariable String sprintId) {
+        return issueService.getIssuesBySprint(sprintId);
     }
 
     // GET BY ID
     @GetMapping("/{id}")
     public Issue getIssueById(@PathVariable String id) {
-        return issueRepository.findById(new ObjectId(id))
-                .orElseThrow(() -> new RuntimeException("Issue not found"));
+        return issueService.getIssueById(id);
     }
 
-    // UPDATE
+    // UPDATE - with validation for parent task status
     @PutMapping("/{id}")
     public Issue updateIssue(
             @PathVariable String id,
             @RequestBody Issue updated) {
-
-        Issue issue = issueRepository.findById(new ObjectId(id))
-                .orElseThrow(() -> new RuntimeException("Issue not found"));
-
-        issue.setTitle(updated.getTitle());
-        issue.setDescription(updated.getDescription());
-        issue.setStatus(updated.getStatus());
-        issue.setPriority(updated.getPriority());
-        issue.setAssigneeId(updated.getAssigneeId());
-        issue.setOrder(updated.getOrder());
-        issue.setUpdatedAt(Instant.now());
-        issue.setComments(updated.getComments());
-        return issueRepository.save(issue);
+        return issueService.updateIssue(id, updated);
     }
 
-    // DELETE
+    @PostMapping("/{id}/comments")
+    public Issue addComment(@PathVariable String id, @RequestBody CommentRequest request) {
+        return issueService.addComment(id, request);
+    }
+
+    // DELETE - with validation
     @DeleteMapping("/{id}")
     public void deleteIssue(@PathVariable String id) {
-        issueRepository.deleteById(new ObjectId(id));
+        issueService.deleteIssue(id);
+    }
+
+    @PutMapping("/{id}/assign")
+    public Issue assignIssue(
+            @PathVariable String id,
+            @RequestParam String assigneeId,
+            @RequestParam String actorId) {
+        return issueService.assignIssue(id, assigneeId, actorId);
+    }
+
+    @PutMapping("/{id}/unassign")
+    public Issue unassignIssue(
+            @PathVariable String id,
+            @RequestParam String actorId) {
+        return issueService.unassignIssue(id, actorId);
     }
 }

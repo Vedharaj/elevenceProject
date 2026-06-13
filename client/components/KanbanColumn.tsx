@@ -7,7 +7,7 @@ import {
 import React from "react";
 import KanbanCard from "./KanbanCard";
 
-const KanbanColumn = ({ column, issues, onIssueClick }: any) => {
+const KanbanColumn = ({ column, issues, allIssues, onIssueClick, onStart, onDelete }: any) => {
   const { setNodeRef } = useDroppable({
     id: column.id,
   });
@@ -25,7 +25,11 @@ const KanbanColumn = ({ column, issues, onIssueClick }: any) => {
             <KanbanCard
               key={issue.id}
               issue={issue}
+              blockers={(issue.dependencyIds || []).map((id: string) => allIssues.find((candidate: any) => candidate.id === id)).filter(Boolean)}
+              subtasks={allIssues.filter((candidate: any) => candidate.parentTaskId === issue.id)}
               onClick={() => onIssueClick(issue)}
+              onStart={onStart}
+              onDelete={onDelete}
             />
           ))}
         </SortableContext>

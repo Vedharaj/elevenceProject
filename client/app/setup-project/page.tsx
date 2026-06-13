@@ -14,6 +14,8 @@ import { AlertCircle, ArrowRight, Car, FolderKanban } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+import { ButtonLoader } from "@/components/ui/loader-components";
+
 const page = () => {
   const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
@@ -161,14 +163,14 @@ const page = () => {
               </div>
 
               <div className="space-y-3 pt-4">
-                <Button
+                <ButtonLoader
                   type="submit"
-                  disabled={isLoading}
+                  loading={isLoading}
                   className="w-full bg-[#0052CC] text-white hover:bg-[#0747A6]"
                 >
-                  {isLoading ? "Creating project..." : "Create project"}
+                  Create project
                   {!isLoading && <ArrowRight className="ml-2 h-4 w-4" />}
-                </Button>
+                </ButtonLoader>
 
                 <Button
                   type="button"

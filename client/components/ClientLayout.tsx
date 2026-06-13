@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/AuthContext";
+import { useProjectWebSocket } from "@/lib/useProjectWebSocket";
 import Sidebar from "./Sidebar";
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
@@ -10,6 +11,7 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [isReady, setIsReady] = useState(false);
+  useProjectWebSocket();
 
   useEffect(() => {
     const publicPages = ["/login", "/setup-project"];

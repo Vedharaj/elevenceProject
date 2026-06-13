@@ -123,3 +123,58 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .scrollbar-container {
+    @apply h-screen overflow-y-auto overflow-x-hidden;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .scrollbar-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .custom-scrollbar-x {
+    scrollbar-width: thin;
+    scrollbar-color: #DFE1E6 transparent;
+  }
+  .custom-scrollbar-x::-webkit-scrollbar {
+    height: 6px;
+  }
+  .custom-scrollbar-x::-webkit-scrollbar-track,
+  .custom-scrollbar-y::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar-x::-webkit-scrollbar-thumb {
+    background: #DFE1E6;
+    border-radius: 3px;
+  }
+  .custom-scrollbar-x::-webkit-scrollbar-thumb:hover {
+    background: #B6C2CF;
+  }
+
+  .custom-scrollbar-y {
+    scrollbar-width: thin;
+    scrollbar-color: #DFE1E6 transparent;
+  }
+  .custom-scrollbar-y::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar-y::-webkit-scrollbar-thumb {
+    background: #DFE1E6;
+    border-radius: 3px;
+  }
+  .custom-scrollbar-y::-webkit-scrollbar-thumb:hover {
+    background: #B6C2CF;
+  }
+}
+
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

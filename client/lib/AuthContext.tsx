@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 type User = {
   id: string;
@@ -8,8 +8,14 @@ type User = {
   email: string;
   role: string;
   avatar?: string;
+  phone?: string;
   group?: string;
+  active?: boolean;
+  emailVerified?: boolean;
+  emailNotificationsEnabled?: boolean;
+  pendingEmail?: string;
   createdAt?: any;
+  updatedAt?: any;
 };
 export type Project = {
   id: string;
@@ -24,6 +30,7 @@ type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
   login: (user: User) => void;
+  updateUser: (user: User) => void;
   logout: () => void;
   selectedProject: Project | null;
   setSelectedProject: (Project: Project | null) => void;
@@ -72,19 +79,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsHydrated(true);
   }, []);
 
-  const login = (userData: User) => {
+  const login = useCallback((userData: User) => {
     setUser(userData);
     if (typeof window !== "undefined") {
       localStorage.setItem("user", JSON.stringify(userData));
     }
-  };
+  }, []);
 
-  const logout = () => {
+  const updateUser = useCallback((userData: User) => {
+    login(userData);
+  }, [login]);
+
+  const logout = useCallback(() => {
     setUser(null);
     if (typeof window !== "undefined") {
       localStorage.removeItem("user");
     }
-  };
+  }, []);
   
   const handleSelectProject = (project: Project | null) => {
     setSelectedProject(project);
@@ -102,6 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user,
         isAuthenticated: !!user,
         login,
+        updateUser,
         logout,
         selectedProject,
         setSelectedProject: handleSelectProject,

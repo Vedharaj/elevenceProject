@@ -20,6 +20,7 @@ public class Issue {
     private String status;      
     private String priority;    
     private String projectId;
+    private String sprintId;
     private String reporterId;
     private String assigneeId;
     private String parentTaskId;
@@ -28,6 +29,7 @@ public class Issue {
     private List<String> dependencyIds;
     private List<String> blockedTaskIds;
     private int order;
+    private Instant dueDate;
 
     private List<String> comments;
 
@@ -38,7 +40,7 @@ public class Issue {
     }
 
     public Issue(String key, String title, String description, String type, String status, String priority,
-            String projectId, String reporterId, String assigneeId, String parentTaskId, Boolean isSubtask,
+            String projectId, String sprintId, String reporterId, String assigneeId, String parentTaskId, Boolean isSubtask,
             List<String> subTaskIds, List<String> dependencyIds, List<String> blockedTaskIds, int order,
             List<String> comments) {
         this.key = key;
@@ -48,6 +50,7 @@ public class Issue {
         this.status = status;
         this.priority = priority;
         this.projectId = projectId;
+        this.sprintId = sprintId;
         this.reporterId = reporterId;
         this.assigneeId = assigneeId;
         this.parentTaskId = parentTaskId;
@@ -92,6 +95,9 @@ public class Issue {
     public String getProjectId() { return projectId; }
     public void setProjectId(String projectId) { this.projectId = projectId; }
 
+    public String getSprintId() { return sprintId; }
+    public void setSprintId(String sprintId) { this.sprintId = sprintId; }
+
     public String getReporterId() { return reporterId; }
     public void setReporterId(String reporterId) { this.reporterId = reporterId; }
 
@@ -115,6 +121,9 @@ public class Issue {
 
     public int getOrder() { return order; }
     public void setOrder(int order) { this.order = order; }
+
+    public Instant getDueDate() { return dueDate; }
+    public void setDueDate(Instant dueDate) { this.dueDate = dueDate; }
 
     public List<String> getComments() { return comments; }
     public void setComments(List<String> comments) { this.comments = comments; }

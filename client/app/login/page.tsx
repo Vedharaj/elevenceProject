@@ -10,9 +10,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/AuthContext";
 import axiosInstance from "@/lib/Axiosinstance";
-import { AlertCircle, ArrowRight, Car, FolderKanban } from "lucide-react";
+import { AlertCircle, ArrowRight, FolderKanban } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { ButtonLoader } from "@/components/ui/loader-components";
 
 const page = () => {
   const router = useRouter();
@@ -59,8 +60,14 @@ const page = () => {
           return;
         }
 
-        if (formData.password.length < 6) {
-          setError("Password must be at least 6 characters");
+        const strongPassword =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(
+            formData.password,
+          );
+        if (!strongPassword) {
+          setError(
+            "Password must be at least 8 characters and include uppercase, lowercase, number, and special character",
+          );
           setIsLoading(false);
           return;
         }
@@ -209,7 +216,7 @@ const page = () => {
                   type="password"
                   name="password"
                   placeholder={
-                    isSignUp ? "At least 6 characters" : "Your password"
+                    isSignUp ? "Strong password" : "Your password"
                   }
                   required
                   className="h-10 border-[#DFE1E6] focus-visible:ring-[#0052CC]"
@@ -218,19 +225,19 @@ const page = () => {
                 />
                 {isSignUp && (
                   <p className="text-xs text-[#6B778C]">
-                    Password must be at least 6 characters
+                    Use 8+ characters with uppercase, lowercase, number, and special character
                   </p>
                 )}
               </div>
 
-              <Button
+              <ButtonLoader
                 type="submit"
-                disabled={isLoading}
+                loading={isLoading}
                 className="w-full bg-[#0052CC] text-white hover:bg-[#0747A6]"
               >
-                {isLoading ? "Processing..." : isSignUp ? "Sign up" : "Log in"}
+                {isSignUp ? "Sign up" : "Log in"}
                 {!isLoading && <ArrowRight className="ml-2 h-4 w-4" />}
-              </Button>
+              </ButtonLoader>
             </form>
 
             <div className="mt-6 text-center text-sm text-[#6B778C]">

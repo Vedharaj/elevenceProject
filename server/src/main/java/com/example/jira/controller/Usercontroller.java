@@ -44,7 +44,14 @@ public class Usercontroller {
 
             if (user.getPassword() == null || user.getPassword().length() < 6) {
                 return new ResponseEntity<>(
-                    new ApiResponse(false, "Password must be at least 6 characters"),
+                    new ApiResponse(false, ProfileController.strongPasswordMessage()),
+                    HttpStatus.BAD_REQUEST
+                );
+            }
+
+            if (!ProfileController.isStrongPassword(user.getPassword())) {
+                return new ResponseEntity<>(
+                    new ApiResponse(false, ProfileController.strongPasswordMessage()),
                     HttpStatus.BAD_REQUEST
                 );
             }
@@ -58,6 +65,8 @@ public class Usercontroller {
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRole(user.getRole() == null ? "USER" : user.getRole());
+            user.setActive(true);
+            user.setEmailVerified(true);
 
             User savedUser = userRepository.save(user);
             return new ResponseEntity<>(
@@ -100,6 +109,13 @@ public class Usercontroller {
                 return new ResponseEntity<>(
                     new ApiResponse(false, "User not found"),
                     HttpStatus.UNAUTHORIZED
+                );
+            }
+
+            if (!user.isActive()) {
+                return new ResponseEntity<>(
+                    new ApiResponse(false, "Account is deactivated"),
+                    HttpStatus.FORBIDDEN
                 );
             }
 
@@ -162,5 +178,10 @@ public class Usercontroller {
         user.setAvatar(updatedUser.getAvatar());
 
         return userRepository.save(user);
+    }
+
+    @GetMapping("/search")
+    public java.util.List<User> searchUsers(@org.springframework.web.bind.annotation.RequestParam String query) {
+        return userRepository.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(query, query);
     }
 }

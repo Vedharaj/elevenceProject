@@ -17,17 +17,10 @@ import {
 import axiosInstance from "@/lib/Axiosinstance";
 import { useAuth } from "@/lib/AuthContext";
 
+import { ButtonLoader } from "@/components/ui/loader-components";
+
 export default function Page() {
   const router = useRouter();
-  // const currentUser = {
-  //   id: "user-1",
-  //   name: "John Doe",
-  //   email: "john@example.com",
-  //   role: "ADMIN",
-  //   group: "Engineering",
-  //   avatar: "https://i.pravatar.cc/150?u=john",
-  //   createdAt: new Date().toISOString(),
-  // };
   const [projectData, setProjectData] = useState({ name: "", key: "" });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -50,6 +43,9 @@ export default function Page() {
 
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
+    setIsLoading(true);
+    setError("");
 
     try {
       if (!projectData.name.trim()) {
@@ -147,14 +143,14 @@ export default function Page() {
               </div>
 
               <div className="space-y-3 pt-4">
-                <Button
+                <ButtonLoader
                   type="submit"
-                  disabled={isLoading}
+                  loading={isLoading}
                   className="w-full bg-[#0052CC] text-white hover:bg-[#0747A6]"
                 >
-                  {isLoading ? "Creating..." : "Create project"}
+                  Create project
                   {!isLoading && <ArrowRight className="ml-2 h-4 w-4" />}
-                </Button>
+                </ButtonLoader>
 
                 <Button
                   type="button"
