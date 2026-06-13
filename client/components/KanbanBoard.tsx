@@ -341,7 +341,7 @@ const KanbanBoard = () => {
   }
 
   return (
-    <div className="flex h-full flex-col gap-4">
+    <div className="flex h-full flex-col gap-4 scrollbar-container">
       {/* Board Filters bar */}
       <div className="flex items-center justify-between gap-4 pb-3 border-b border-[#DFE1E6]">
         <div className="flex items-center gap-2">

@@ -443,7 +443,7 @@ const ProfilePage = () => {
             </CardContent>
           </Card>
 
-          <Card>
+          {/* <Card>
             <CardHeader>
               <CardTitle className="text-[#172B4D]">Notification Preferences</CardTitle>
               <CardDescription>Control whether in-app notifications are also sent by email</CardDescription>
@@ -461,7 +461,7 @@ const ProfilePage = () => {
                 </ButtonLoader>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
 
           <Card>
         <CardHeader>

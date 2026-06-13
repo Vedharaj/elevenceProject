@@ -269,7 +269,7 @@ public class NotificationService {
             return;
         }
         User user = userRepository.findById(new ObjectId(userId)).orElse(null);
-        if (user == null || !user.isEmailNotificationsEnabled() || user.getEmail() == null || user.getEmail().isBlank()) {
+        if (user == null || user.getEmail() == null || user.getEmail().isBlank()) {
             return;
         }
         try {
