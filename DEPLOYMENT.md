@@ -24,7 +24,7 @@ Render offers free hosting for web apps and web services. Follow these steps to 
 5. Click **Advanced** to add environment variables (see [Environment Variables](#2-environment-variables) section below).
 6. Click **Create Web Service**.
 
-### Frontend Deployment (Next.js Web Service or Static Site)
+### Frontend Deployment (Render Web Service or Static Site)
 1. Click **New** > **Web Service** or **Static Site**.
 2. Connect your GitHub repository.
 3. Configure the settings:
@@ -34,6 +34,23 @@ Render offers free hosting for web apps and web services. Follow these steps to 
    - **Start Command**: `npm run start`
 4. Add the required environment variables.
 5. Click **Create Web Service**.
+
+### Frontend Deployment (Vercel - Recommended)
+Vercel is the creator and optimizer of Next.js, making it the ideal hosting platform for the frontend.
+1. Sign in to your [Vercel Dashboard](https://vercel.com).
+2. Click **Add New...** > **Project**.
+3. Connect your Git provider and import your repository.
+4. Configure the Next.js deployment settings:
+   - **Framework Preset**: `Next.js`
+   - **Root Directory**: Choose `client`
+   - **Build Command**: `npm run build` (or `next build`)
+   - **Output Directory**: Next.js default (leave default)
+   - **Install Command**: `npm install` (or `yarn install` / `pnpm install` / `bun install` based on your preference)
+5. Expand the **Environment Variables** section and configure:
+   - **Key**: `API_BASE_URL`
+   - **Value**: The public URL of your deployed Render backend API (e.g. `https://jira-clone-backend.onrender.com`)
+6. Click **Deploy**.
+
 
 ---
 

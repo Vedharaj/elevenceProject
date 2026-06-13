@@ -62,7 +62,7 @@ const CreateIssuemodel = ({ isOpen, onClose }: any) => {
     }
     try {
       setIsloading(true);
-      await axiosInstance.post("/api/issues", {
+      const res = await axiosInstance.post("/api/issues", {
         title: formData.title,
         description: formData.description,
         type: formData.type,
@@ -73,6 +73,14 @@ const CreateIssuemodel = ({ isOpen, onClose }: any) => {
         assigneeId: formData.assigneeId || null,
         order: 0,
       });
+
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("issues:changed", {
+            detail: { projectId: selectedProject?.id, issue: res.data },
+          })
+        );
+      }
 
       onClose();
     } catch (error) {
