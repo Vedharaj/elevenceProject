@@ -312,7 +312,7 @@ export default function BacklogPage() {
 
 
   return (
-    <div className="flex flex-col h-screen p-6 bg-[#F7F8F9] overflow-hidden">
+    <div className="flex flex-col min-h-screen lg:h-screen p-4 md:p-6 bg-[#F7F8F9] overflow-y-auto lg:overflow-hidden">
       {/* Header */}
       <div className="mb-6 flex flex-col gap-4">
         <div className="flex items-center gap-2 text-sm text-[#5E6C84]">
@@ -340,7 +340,7 @@ export default function BacklogPage() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex gap-6 min-h-0 overflow-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0 overflow-visible lg:overflow-hidden">
         {error ? (
           <div className="flex-1 flex items-center justify-center bg-white border border-[#DFE1E6] rounded-xl p-8">
             <ErrorState onRetry={fetchBacklogData} isRetrying={loading} message={error} />
@@ -352,7 +352,7 @@ export default function BacklogPage() {
         ) : (
           <>
             {/* Left Column: Sprints List */}
-            <div className="flex-1 overflow-y-auto space-y-6 pr-2 pb-8 custom-scrollbar-y">
+            <div className="flex-1 overflow-visible lg:overflow-y-auto space-y-6 pr-0 lg:pr-2 pb-8 custom-scrollbar-y">
               {!activeSprint && plannedSprints.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-[#B6C2CF] bg-white p-8 text-center h-full min-h-[300px]">
               <AlertTriangle className="mx-auto h-8 w-8 text-[#B6C2CF] mb-2" />
@@ -383,7 +383,7 @@ export default function BacklogPage() {
                   onDragLeave={handleDragLeave}
                   onDrop={(e) => handleDrop(e, activeSprint.id)}
                 >
-                  <div className="flex items-center justify-between border-b pb-3 mb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 mb-4">
                     <div className="flex items-center gap-3">
                       <ChevronDown className="h-4 w-4 text-[#6B778C]" />
                       <span className="font-bold text-base text-[#172B4D]">{activeSprint.name}</span>
@@ -443,7 +443,7 @@ export default function BacklogPage() {
                     onDragLeave={handleDragLeave}
                     onDrop={(e) => handleDrop(e, sprint.id)}
                   >
-                    <div className="flex items-center justify-between border-b pb-3 mb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 mb-4">
                       <div className="flex items-center gap-3">
                         <ChevronDown className="h-4 w-4 text-[#6B778C]" />
                         <span className="font-bold text-base text-[#172B4D]">{sprint.name}</span>
@@ -505,7 +505,7 @@ export default function BacklogPage() {
 
         {/* Right Column: Backlog Sidebar */}
         <div
-          className={`w-[400px] lg:w-[480px] shrink-0 flex flex-col rounded-xl border bg-white shadow-sm p-4 transition-colors ${dragOverContainer === "backlog" ? "border-dashed border-[#0052CC] bg-[#EAEFFF]" : "border-[#DFE1E6]"
+          className={`w-full lg:w-[400px] xl:w-[480px] shrink-0 flex flex-col rounded-xl border bg-white shadow-sm p-4 transition-colors ${dragOverContainer === "backlog" ? "border-dashed border-[#0052CC] bg-[#EAEFFF]" : "border-[#DFE1E6]"
             }`}
           onDragOver={(e) => handleDragOver(e, "backlog")}
           onDragEnter={(e) => handleDragEnter(e, "backlog")}
@@ -522,7 +522,7 @@ export default function BacklogPage() {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto space-y-1.5 pr-1 min-h-0 custom-scrollbar-y">
+          <div className="flex-1 overflow-visible lg:overflow-y-auto space-y-1.5 pr-1 min-h-0 lg:max-h-none max-h-[400px] custom-scrollbar-y">
             {backlogIssues.length === 0 ? (
               <div className="text-center py-8 text-xs text-[#6B778C] border-2 border-dashed border-[#DFE1E6] rounded-lg bg-[#FAFBFC]">
                 Your backlog is empty. Create a task or drag tasks here.

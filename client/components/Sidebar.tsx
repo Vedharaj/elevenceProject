@@ -14,6 +14,7 @@ import {
   Clock3,
   Users,
   Timer,
+  X,
 } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useMemo, useState, useRef } from "react";
@@ -36,7 +37,7 @@ const resolveImageUrl = (url?: string) => {
   return `${apiBaseUrl}${url.startsWith("/") ? url : `/${url}`}`;
 };
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen = false, onClose = () => {} }: { isOpen?: boolean; onClose?: () => void }) => {
   const router = useRouter();
   const pathname = usePathname();
   const { user, logout, selectedProject, setSelectedProject } = useAuth();
@@ -103,19 +104,41 @@ const Sidebar = () => {
     router.push("/login");
   };
   return (
-    <div className="flex h-screen w-64 flex-col border-r bg-[#F4F5F7] text-[#42526E]">
-      {/* Header */}
-      <div className="relative flex items-center justify-between gap-2 p-4 pt-6">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded bg-[#0052CC] text-white">
-            <FolderKanban className="h-5 w-5" />
+    <>
+      {/* Backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      <div
+        className={`fixed inset-y-0 left-0 z-50 flex h-screen w-64 flex-col border-r bg-[#F4F5F7] text-[#42526E] transition-transform duration-200 ease-in-out md:sticky md:top-0 md:translate-x-0 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Header */}
+        <div className="relative flex items-center justify-between gap-2 p-4 pt-6">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded bg-[#0052CC] text-white">
+              <FolderKanban className="h-5 w-5" />
+            </div>
+            <span className="text-xl font-bold tracking-tight text-[#172B4D]">
+              Jira Clone
+            </span>
           </div>
-          <span className="text-xl font-bold tracking-tight text-[#172B4D]">
-            Jira Clone
-          </span>
+          <div className="flex items-center gap-1">
+            <NotificationBell />
+            <button
+              onClick={onClose}
+              className="p-1 rounded hover:bg-[#EBECF0] md:hidden cursor-pointer"
+              aria-label="Close sidebar"
+            >
+              <X className="h-5 w-5 text-[#42526E]" />
+            </button>
+          </div>
         </div>
-        <NotificationBell />
-      </div>
 
       {/* Project Selector */}
       {selectedProject && (
@@ -244,6 +267,7 @@ const Sidebar = () => {
         onClose={() => setShowcreateissuemodel(false)}
       />
     </div>
+    </>
   );
 };
 

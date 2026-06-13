@@ -5,12 +5,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/AuthContext";
 import { useProjectWebSocket } from "@/lib/useProjectWebSocket";
 import Sidebar from "./Sidebar";
+import { Menu } from "lucide-react";
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [isReady, setIsReady] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   useProjectWebSocket();
 
   useEffect(() => {
@@ -22,9 +24,8 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
       router.push("/login");
     }
 
-    // Don't redirect authenticated users from login page immediately
-    // This is handled by the login page itself after successful login
-    // to avoid race conditions and double redirects
+    // Close sidebar on page change
+    setIsSidebarOpen(false);
 
     setIsReady(true);
   }, [isAuthenticated, pathname, router]);
@@ -38,8 +39,24 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   return isAuthPage ? (
     children
   ) : (
-    <div className="flex min-h-screen bg-white">
-      <Sidebar />
+    <div className="flex min-h-screen flex-col md:flex-row bg-white">
+      {/* Mobile Top Header */}
+      <header className="flex md:hidden items-center justify-between px-4 py-3 border-b bg-[#F4F5F7] sticky top-0 z-30">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-1 rounded hover:bg-gray-200 transition-colors cursor-pointer"
+            aria-label="Open sidebar"
+          >
+            <Menu className="h-6 w-6 text-[#42526E]" />
+          </button>
+          <span className="text-lg font-bold tracking-tight text-[#172B4D]">
+            Jira Clone
+          </span>
+        </div>
+      </header>
+
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <main className="flex-1 overflow-x-hidden">{children}</main>
     </div>
   );

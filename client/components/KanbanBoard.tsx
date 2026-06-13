@@ -343,7 +343,7 @@ const KanbanBoard = () => {
   return (
     <div className="flex h-full flex-col gap-4 scrollbar-container">
       {/* Board Filters bar */}
-      <div className="flex items-center justify-between gap-4 pb-3 border-b border-[#DFE1E6]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-[#DFE1E6]">
         <div className="flex items-center gap-2">
           <label className="text-xs font-bold uppercase text-[#626F86] tracking-wide">Sprint Filter:</label>
           <select
@@ -370,7 +370,7 @@ const KanbanBoard = () => {
         )}
       </div>
 
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 overflow-x-auto custom-scrollbar-x">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}
@@ -380,7 +380,7 @@ const KanbanBoard = () => {
           {loading ? (
             <PageSkeleton />
           ) : (
-            <div className="flex h-full gap-4 pb-4">
+            <div className="flex h-full gap-4 pb-4 min-w-max">
               {STATUS_COLUMNS.map((column) => {
                 const columnIssues = filteredIssues
                   .filter((i) => {

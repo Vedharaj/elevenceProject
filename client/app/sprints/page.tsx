@@ -313,7 +313,7 @@ export default function SprintsPage() {
               ) : (
                 <div className="flex gap-6 overflow-x-auto pb-4 custom-scrollbar-x hide-scrollbar">
                   {plannedSprints.map((sprint) => (
-                    <div key={sprint.id} className="w-[320px] sm:w-[420px] shrink-0">
+                    <div key={sprint.id} className="w-[280px] sm:w-[420px] shrink-0">
                       <SprintCard
                         sprint={sprint}
                         stats={sprintStats[sprint.id]}
@@ -341,7 +341,7 @@ export default function SprintsPage() {
               ) : (
                 <div className="flex gap-6 overflow-x-auto pb-4 custom-scrollbar-x hide-scrollbar">
                   {completedSprints.map((sprint) => (
-                    <div key={sprint.id} className="w-[320px] sm:w-[420px] shrink-0">
+                    <div key={sprint.id} className="w-[280px] sm:w-[420px] shrink-0">
                       <SprintCard sprint={sprint} stats={sprintStats[sprint.id]} />
                     </div>
                   ))}
@@ -538,7 +538,7 @@ function SprintCard({
 
   return (
     <Card className="border-[#DFE1E6] bg-white shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3 border-b border-[#F4F5F7] flex flex-row items-center justify-between space-y-0">
+      <CardHeader className="pb-3 border-b border-[#F4F5F7] flex flex-col sm:flex-row sm:items-center justify-between gap-3 space-y-0">
         <div>
           <div className="flex items-center gap-2">
             <CardTitle className="text-base font-bold text-[#172B4D]">{sprint.name}</CardTitle>

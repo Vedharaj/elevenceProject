@@ -242,10 +242,12 @@ export default function TimeTrackingPage() {
                 } : undefined}
               />
             ) : (
-              <Table>
-                <TableHeader><TableRow className="bg-[#F7F8F9]"><TableHead className="px-5">Date</TableHead><TableHead>User</TableHead><TableHead>Description</TableHead><TableHead className="text-right">Hours</TableHead><TableHead className="px-5 text-right">Actions</TableHead></TableRow></TableHeader>
-                <TableBody>{logs.map((log) => <TableRow key={log.id}><TableCell className="px-5"><span className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-[#626F86]" />{new Date(`${log.date}T00:00:00`).toLocaleDateString()}</span></TableCell><TableCell><Badge variant="secondary">{log.userId === user?.id ? "You" : log.userId}</Badge></TableCell><TableCell className="max-w-md whitespace-normal text-[#42526E]">{log.description || "No description"}</TableCell><TableCell className="text-right font-semibold text-[#172B4D]">{log.durationHours}h</TableCell><TableCell className="px-5"><div className="flex justify-end gap-1"><Button size="icon" variant="ghost" aria-label="Edit work log" onClick={() => { setEditingLog(log); setFormOpen(true); }}><Edit3 className="h-4 w-4" /></Button><Button size="icon" variant="ghost" className="text-red-600 hover:text-red-700" aria-label="Delete work log" onClick={() => setPendingAction({ mode: "delete", log })}><Trash2 className="h-4 w-4" /></Button></div></TableCell></TableRow>)}</TableBody>
-              </Table>
+              <div className="overflow-x-auto">
+                <Table className="min-w-[600px] md:min-w-full">
+                  <TableHeader><TableRow className="bg-[#F7F8F9]"><TableHead className="px-5">Date</TableHead><TableHead>User</TableHead><TableHead>Description</TableHead><TableHead className="text-right">Hours</TableHead><TableHead className="px-5 text-right">Actions</TableHead></TableRow></TableHeader>
+                  <TableBody>{logs.map((log) => <TableRow key={log.id}><TableCell className="px-5"><span className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-[#626F86]" />{new Date(`${log.date}T00:00:00`).toLocaleDateString()}</span></TableCell><TableCell><Badge variant="secondary">{log.userId === user?.id ? "You" : log.userId}</Badge></TableCell><TableCell className="max-w-md whitespace-normal text-[#42526E]">{log.description || "No description"}</TableCell><TableCell className="text-right font-semibold text-[#172B4D]">{log.durationHours}h</TableCell><TableCell className="px-5"><div className="flex justify-end gap-1"><Button size="icon" variant="ghost" aria-label="Edit work log" onClick={() => { setEditingLog(log); setFormOpen(true); }}><Edit3 className="h-4 w-4" /></Button><Button size="icon" variant="ghost" className="text-red-600 hover:text-red-700" aria-label="Delete work log" onClick={() => setPendingAction({ mode: "delete", log })}><Trash2 className="h-4 w-4" /></Button></div></TableCell></TableRow>)}</TableBody>
+                </Table>
+              </div>
             )}
           </CardContent>
         </Card>

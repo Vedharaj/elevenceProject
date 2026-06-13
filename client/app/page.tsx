@@ -7,7 +7,7 @@ import { Suspense } from "react";
 
 export default function Home() {
   return (
-    <div className="flex h-full flex-col p-6 overflow-hidden">
+    <div className="flex h-full flex-col p-4 sm:p-6 overflow-hidden">
       <div className="mb-6 flex flex-col gap-4">
 
         <div className="flex items-center justify-between">

@@ -180,7 +180,7 @@ const TeamPage = () => {
     : teamMembers;
 
   return (
-    <div className="p-8 h-full flex flex-col bg-[#F4F5F7] relative">
+    <div className="p-4 sm:p-8 min-h-screen lg:h-full flex flex-col bg-[#F4F5F7] relative overflow-y-auto">
       {/* Loader */}
       {loading && (
         <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-50">
@@ -189,7 +189,7 @@ const TeamPage = () => {
       )}
 
       {/* Header */}
-      <header className="mb-8 flex items-center justify-between">
+      <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-[#172B4D]">Team Management</h1>
           <p className="text-[#5E6C84] text-sm mt-1">
@@ -211,7 +211,7 @@ const TeamPage = () => {
       </header>
 
       {/* Group Filter */}
-      <div className="mb-6 flex gap-2 overflow-x-auto pb-2">
+      <div className="mb-6 flex flex-wrap gap-2 pb-2">
         <Button
           variant={selectedGroup === null ? "default" : "outline"}
           onClick={() => setSelectedGroup(null)}
@@ -239,8 +239,8 @@ const TeamPage = () => {
       ) : teamMembers.length === 0 ? (
         <EmptyState type="members" />
       ) : (
-        <div className="flex-1 rounded-lg border bg-white overflow-y-auto">
-          <Table>
+        <div className="flex-1 rounded-lg border bg-white overflow-x-auto overflow-y-auto">
+          <Table className="min-w-[800px] md:min-w-full">
             <TableHeader className="bg-[#F4F5F7] sticky top-0">
               <TableRow>
                 <TableHead>Name</TableHead>
